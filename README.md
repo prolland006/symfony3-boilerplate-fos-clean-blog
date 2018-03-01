@@ -15,6 +15,8 @@ The symfony3-boilerplate-fos-clean-blog is configured with the following default
 
   * the theme : clean blog https://startbootstrap.com/template-overviews/clean-blog/
 
-It comes pre-configured with the following bundle:
+It comes pre-configured with the following bundles:
 
-  * [**FOSUserBundle**][6] 
+  * [**FOSUserBundle**][6]
+
+Enjoy!
