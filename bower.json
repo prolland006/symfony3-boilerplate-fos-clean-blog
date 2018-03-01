@@ -1,0 +1,22 @@
+{
+  "name": "patrice.rolland",
+  "authors": [
+    "Prolland006 <rolland.patrice@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "popper.js": "^1.12.9",
+    "font-awesome": "4.7.0"
+  }
+}
