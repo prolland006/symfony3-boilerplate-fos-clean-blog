@@ -16,3 +16,6 @@ add:
 formAnnu:
     path: /annuaire/
     defaults: { _controller: AppBundle:Default:annuaire }
+searchAnnu:
+    path: /search/{name}/{phone}
+    defaults: { _controller: AppBundle:Default:search }

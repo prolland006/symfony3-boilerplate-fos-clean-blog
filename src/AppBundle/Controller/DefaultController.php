@@ -5,7 +5,12 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Annuaire;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DefaultController extends Controller
 {
@@ -59,7 +64,34 @@ class DefaultController extends Controller
         $man->persist($annu);
         $man->flush();
 
-        return "ok $name $phone";
+        return new Response("ok $name $phone"); //todo : renvoyer du json et gêrer l'erreur dans le javascript
+    }
+
+    public function searchAction(Request $request, $name, $phone)
+    {
+        $man = $this->getDoctrine()->getManager();
+
+        $entities = '';
+        if (($name != '__') && ($phone != '__')) {
+            $entities = $man->getRepository('AppBundle:Annuaire')->findBy([
+                "name" => $name,
+                "phone" => $phone
+            ]);
+        } else if ($name != '__') {
+            $entities = $man->getRepository('AppBundle:Annuaire')->findBy([
+                "name" => $name
+            ]);
+        } else if ($phone != '__') {
+            $entities = $man->getRepository('AppBundle:Annuaire')->findBy([
+                "phone" => $phone
+            ]);
+        }
+
+        $serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new
+        JsonEncoder()));
+
+        $message = $serializer->serialize($entities, 'json');
+        return new JsonResponse($message);
     }
 
     public function annuaireAction(Request $request)

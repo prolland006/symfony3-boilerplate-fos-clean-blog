@@ -9,13 +9,19 @@
                     <div class="form-group">
                         <label for="name">Nom</label>
                         <input type="text" class="form-control" id="_name" name="_name" aria-describedby="name-help" placeholder="Nom">
-                        <small id="name-help" class="form-text text-muted">Saisir un nom.</small>
+                        <small id="name-help" class="form-text text-muted">Pour la recherche laisser vide les champs non recherchés.</small>
                     </div>
                     <div class="form-group">
                         <label for="phone">Téléphone</label>
                         <input type="text" class="form-control" id="phone" placeholder="Téléphone">
                     </div>
-                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                        <button id="btn-search" class="btn btn-primary">Rechercher</button>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" id="result" rows="3"></textarea>
+                    </div>
                 </form>
             </div>
         </div>
@@ -27,17 +33,42 @@
     <script>
         $( document ).ready(function() {
 
-            $("#form-annu").submit(function(e){
+            $("#form-annu").submit(function(e){alert('add');
                 e.preventDefault();
 
-                alert('http://localhost/app_dev.php/add/'+$('#_name').val()+'/'+$('#phone').val());
-
                 $.ajax({
-                    type: "POST",
+                    type: "POST",  //todo : récupérer les vrai url avec le router de symfony
                     url: 'http://localhost/app_dev.php/add/'+$('#_name').val()+'/'+$('#phone').val(),
-                    success: function(data)
+                    success: function(data)  // toto: gêter les erreurs
                     {
                         console.log(data); // show response from the php script.
+                    }
+                });
+
+            });
+
+
+
+            $("#btn-search").click(function(e){
+                e.preventDefault();
+                var name = $('#_name').val();
+                if (name.trim() === '' ) {
+                    name = '__'; // ne pas rechercher le nom
+                }
+                var phone = $('#phone').val();
+                if (phone.trim() === '' ) {
+                    phone = '__'; // ne pas rechercher le téléphone
+                }
+                $.ajax({
+                    type: "POST",  //todo : récupérer les vrai url avec le router de symfony
+                    url: 'http://localhost/app_dev.php/search/'+name+'/'+phone,
+                    success: function(data)  // toto: gêter les erreurs
+                    {
+                        console.log(data); // show response from the php script.
+                        var result='';
+                        var r=JSON.parse(data);console.log(r);
+                        for (var i=0;i<r.length;i++)
+                        $('#result').text(r[i].name+' '+r[i].phone);
                     }
                 });
 
