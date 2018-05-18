@@ -51,6 +51,7 @@
 
             $("#btn-search").click(function(e){
                 e.preventDefault();
+                $('#result').text('');
                 var name = $('#_name').val();
                 if (name.trim() === '' ) {
                     name = '__'; // ne pas rechercher le nom
