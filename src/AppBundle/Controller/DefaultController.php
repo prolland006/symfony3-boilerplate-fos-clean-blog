@@ -94,6 +94,43 @@ class DefaultController extends Controller
         return new JsonResponse($message);
     }
 
+    public function searchSoundExAction(Request $request, $name, $phone)
+    {
+        $man = $this->getDoctrine()->getManager();
+
+        $entities = '';
+        if (($name != '__') && ($phone != '__')) {
+            $entities = $man->getRepository('AppBundle:Annuaire')->findBy([
+                "name" => $name,
+                "phone" => $phone
+            ]);
+
+        } else if ($name != '__') {
+
+            $queryBuilder = $man->getRepository('AppBundle:Annuaire')->createQueryBuilder('u');
+
+            $queryBuilder->select('u')
+                ->from(Annuaire::class, 'name')
+                //->where('u.name = :name')
+                ->where("SOUNDEX(u.name) LIKE SOUNDEX(:name)")
+                ->setParameter('name', $name);
+
+            $query = $queryBuilder->getQuery();
+
+            $entities = $query->getResult();
+        } else if ($phone != '__') {
+            $entities = $man->getRepository('AppBundle:Annuaire')->findBy([
+                "phone" => $phone
+            ]);
+        }
+
+        $serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new
+        JsonEncoder()));
+
+        $message = $serializer->serialize($entities, 'json');
+        return new JsonResponse($message);
+    }
+
     public function annuaireAction(Request $request)
     {
         $man = $this->getDoctrine()->getManager();

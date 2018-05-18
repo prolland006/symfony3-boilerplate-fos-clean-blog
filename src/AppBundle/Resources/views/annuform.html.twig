@@ -33,7 +33,7 @@
     <script>
         $( document ).ready(function() {
 
-            $("#form-annu").submit(function(e){alert('add');
+            $("#form-annu").submit(function(e){
                 e.preventDefault();
 
                 $.ajax({
@@ -62,11 +62,10 @@
                 }
                 $.ajax({
                     type: "POST",  //todo : récupérer les vrai url avec le router de symfony
-                    url: 'http://localhost/app_dev.php/search/'+name+'/'+phone,
+                    url: 'http://localhost/app_dev.php/search/'+name+'/'+phone,  //ou soundex pour la phonétique
                     success: function(data)  // toto: gêter les erreurs
                     {
                         console.log(data); // show response from the php script.
-                        var result='';
                         var r=JSON.parse(data);console.log(r);
                         for (var i=0;i<r.length;i++)
                         $('#result').text(r[i].name+' '+r[i].phone);

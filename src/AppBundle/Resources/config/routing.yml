@@ -19,3 +19,6 @@ formAnnu:
 searchAnnu:
     path: /search/{name}/{phone}
     defaults: { _controller: AppBundle:Default:search }
+searchSoundEx:
+    path: /searchSoundEx/{name}/{phone}
+    defaults: { _controller: AppBundle:Default:searchSoundEx }
