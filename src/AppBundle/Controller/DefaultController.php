@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Annuaire;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,4 +47,30 @@ class DefaultController extends Controller
                 'subTitle' => ''
             ]);
     }
+
+    public function addAction(Request $request, $name, $phone)
+    {
+        $man = $this->getDoctrine()->getManager();
+
+        $annu = new Annuaire();
+        $annu->setName($name);
+        $annu->setPhone($phone);
+
+        $man->persist($annu);
+        $man->flush();
+
+        return "ok $name $phone";
+    }
+
+    public function annuaireAction(Request $request)
+    {
+        $man = $this->getDoctrine()->getManager();
+
+        return $this->render('AppBundle::annuForm.html.twig',
+            [   'backgroundImg' => 'assets/img/home-bg.jpg',
+                'mainTitle' => 'Annuaire',
+                'subTitle' => 'Votre annuaire,'
+            ]);
+    }
+
 }

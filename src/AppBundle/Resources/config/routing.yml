@@ -10,3 +10,9 @@ about:
 post:
     path: /post/
     defaults: { _controller: AppBundle:Default:post }
+add:
+    path: /add/{name}/{phone}
+    defaults: { _controller: AppBundle:Default:add }
+formAnnu:
+    path: /annuaire/
+    defaults: { _controller: AppBundle:Default:annuaire }
